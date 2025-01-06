@@ -8,6 +8,7 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
+            background: #0d1117;
         }
         canvas {
             display: block;
@@ -46,10 +47,32 @@ let grid = [];
 const cellSize = 10;
 let isRunning = true;
 
+let updateInterval;
+const GENERATION_INTERVAL = 500; // 500ms = 0.5s
+
+function startSimulation() {
+    if (updateInterval) return;
+    updateInterval = setInterval(() => {
+        update();
+        draw();
+    }, GENERATION_INTERVAL);
+}
+
+function stopSimulation() {
+    if (updateInterval) {
+        clearInterval(updateInterval);
+        updateInterval = null;
+    }
+}
+
 document.getElementById('control').addEventListener('click', () => {
     isRunning = !isRunning;
     document.getElementById('control').textContent = isRunning ? 'Stop' : 'Start';
-    if (isRunning) animate();
+    if (isRunning) {
+        startSimulation();
+    } else {
+        stopSimulation();
+    }
 });
 
 document.getElementById('reset').addEventListener('click', () => {
@@ -105,13 +128,21 @@ function update() {
 }
 
 function draw() {
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = '#0d1117';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    ctx.fillStyle = 'black';
     for(let i = 0; i < grid.length; i++) {
         for(let j = 0; j < grid[i].length; j++) {
             if(grid[i][j]) {
+                const neighbors = countNeighbors(grid, i, j);
+                // Map neighbor count to GitHub-style colors
+                let color;
+                if (neighbors <= 1) color = '#9be9a8';
+                else if (neighbors == 2) color = '#40c463';
+                else if (neighbors == 3) color = '#30a14e';
+                else color = '#216e39';
+                
+                ctx.fillStyle = color;
                 const x = j * cellSize;
                 const y = i * cellSize;
                 ctx.beginPath();
@@ -122,16 +153,18 @@ function draw() {
     }
 }
 
-function animate() {
-    if (!isRunning) return;
-    update();
-    draw();
-    requestAnimationFrame(animate);
-}
+// Remove or comment out the original animate function
+// function animate() {
+//     if (!isRunning) return;
+//     update();
+//     draw();
+//     requestAnimationFrame(animate);
+// }
 
 window.addEventListener('resize', resize);
 resize();
-animate();
+draw();
+startSimulation();
 </script>
 </body>
 </html>
