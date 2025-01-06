@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Conway's Game of Life Implementation">
+    <title>Game of Life</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <canvas id="game"></canvas>
-    <div class="controls">
+    <canvas id="game" aria-label="Game of Life Grid"></canvas>
+    <div class="controls" role="toolbar" aria-label="Game Controls">
         <button class="control-btn" id="control">Stop</button>
         <button class="control-btn" id="reset">Reset</button>
     </div>
