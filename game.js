@@ -123,6 +123,22 @@ class GameOfLife {
      * @param {number} y - Column index
      * @returns {number} Number of living neighbors
      */
+    /**
+     * Counts the number of living neighbors for a cell at given coordinates in Conway's Game of Life.
+     * Uses a toroidal grid (wraps around edges) to calculate neighbors.
+     * 
+     * @param {number[][]} grid - The 2D array representing the game board where 1 is alive and 0 is dead
+     * @param {number} x - The x coordinate (row) of the cell
+     * @param {number} y - The y coordinate (column) of the cell
+     * @returns {number} The count of living neighbors (excluding the cell itself)
+     * 
+     * @example
+     * // For a cell at (1,1) in a 3x3 grid:
+     * // [1, 0, 1]
+     * // [0, 1, 0]
+     * // [1, 0, 1]
+     * countNeighbors(grid, 1, 1) // returns 4
+     */
     countNeighbors(grid, x, y) {
         let sum = 0;
         for(let i = -1; i < 2; i++) {
